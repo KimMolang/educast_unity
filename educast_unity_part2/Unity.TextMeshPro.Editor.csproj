@@ -762,7 +762,7 @@
     <None Include="Assets\Firebase\Editor\AppDependencies.xml" />
     <None Include="Assets\Firebase\Editor\AuthDependencies.xml" />
     <None Include="Assets\Firebase\Editor\DatabaseDependencies.xml" />
-    <None Include="Assets\Firebase\Editor\FirebaseAuth_v1.1.2_manifest.txt" />
+    <None Include="Assets\Firebase\Editor\FirebaseAuth_version-5.6.0_manifest.txt" />
     <None Include="Assets\Firebase\Editor\FirebaseDatabase_version-5.6.0_manifest.txt" />
     <None Include="Assets\Firebase\Plugins\Http\link.xml" />
     <None Include="Assets\Firebase\Plugins\link.xml" />

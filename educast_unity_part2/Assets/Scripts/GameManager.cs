@@ -8,6 +8,11 @@ using Firebase.Unity;
 
 using Firebase.Auth;
 
+using UnityEngine.UI;
+using UnityEngine.Purchasing;
+using UnityEngine.Purchasing.Security;
+using UnityEngine.Analytics;
+
 /*
  * #if UNITY_EDITOR
  * FirebaseApp.DefaultInstance.SetEditorDatabaseUrl
@@ -156,10 +161,114 @@ public class LoginManager
     }
 }
 
+// ref : https://docs.unity3d.com/kr/2018.1/Manual/IAPPromoIntegration.html
+public class PurchaseManager : IStoreListener
+{
+    public Text text;
+    private string productID = "something"; // 설정한 상품 ID
+    private IStoreController controller;    // 인 앱 결제를 위한 컨트롤러 객체
+
+    public void InitStore()
+    {
+        // 환설설정 객체 선언
+        ConfigurationBuilder builder = ConfigurationBuilder.Instance(
+            StandardPurchasingModule.Instance());
+
+        // 설정한 상품 ID를 인 앱 결제 상품으로 등록
+        builder.AddProduct(
+            productID
+            , ProductType.Consumable
+            , new IDs { { productID, GooglePlay.Name } });
+
+        UnityPurchasing.Initialize(this, builder);
+    }
+
+    public void Phrchase()
+    {
+        if (controller == null)
+        {
+            Debug.Log("결제 모듈이 초기화되지 않았습니다.");
+        }
+        else
+        {
+            controller.InitiatePurchase(productID);
+        }
+    }
+
+    // 아래 네 가지 함수들은 자동으로 실행된다.
+    public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
+    {
+        this.controller = controller;
+        Debug.Log("결제 모듈 초기화가 완료되었습니다.");
+    }
+
+    public void OnInitializeFailed(InitializationFailureReason error)
+    {
+        Debug.Log("결제 모듈 초기화에 실패했습니다.");
+    }
+
+    public void OnPurchaseFailed(Product i, PurchaseFailureReason p)
+    {
+        if( p.Equals(PurchaseFailureReason.UserCancelled))
+        {
+            Debug.Log("사용자가 결제창을 닫았습니다");
+        }
+        else // 유저가 결제창을 닫은 것이 아니라면
+        {
+            Debug.Log("결제 모듈 동작에 실패했습니다.");
+        }
+    }
+
+    public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs e)
+    {
+        bool success = true;
+
+        CrossPlatformValidator validator = new CrossPlatformValidator(
+            GooglePlayTangle.Data()
+            , AppleTangle.Data()
+            , Application.identifier);
+
+        try
+        {
+            // 앱 상에서 구매한 물품에 대해서 결제 처리 진행
+            IPurchaseReceipt[] result = validator.Validate(e.purchasedProduct.receipt);
+
+            for(int i = 0; i < result.Length; ++i)
+            {
+                // 해당 결제 내용 추적
+                Analytics.Transaction(
+                    productID
+                    , e.purchasedProduct.metadata.localizedPrice
+                    , e.purchasedProduct.metadata.isoCurrencyCode);
+            }
+        }
+        catch (IAPSecurityException ex)
+        {
+            // 위 코드는 오직 안드로이드에서만 잘 작동할 것.
+            Debug.Log("결제 진행 오류 : " + ex.Message);
+
+            success = false;
+        }
+
+
+        if(success)
+        {
+            text.text = "결제 완료";
+        }
+        else
+        {
+            text.text = "결제 실패";
+        }
+
+        return PurchaseProcessingResult.Complete;
+    }
+}
+
 public class GameManager : MonoBehaviour
 {
     private DataManager dataManager;
     private LoginManager loginManager;
+    private PurchaseManager purchaseManager;
 
     private void Start()
     {
@@ -170,6 +279,11 @@ public class GameManager : MonoBehaviour
         loginManager = new LoginManager();
         loginManager.Init();
         //loginManager.Join ("testID_01@gmail.com", "123123");
-        loginManager.Login("testID_01@gmail.com", "1231");
+        //loginManager.Login("testID_01@gmail.com", "1231");
+
+        Screen.SetResolution(1920, 1200, true);
+
+        purchaseManager = new PurchaseManager();
+        purchaseManager.InitStore();
     }
 }

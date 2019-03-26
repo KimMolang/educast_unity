@@ -1,0 +1,6 @@
+/Temp
+/obj/
+*.meta
+/Library
+/Packages
+/*.sln

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "95547175900",
+    "firebase_url": "https://unitygameserver-eb5a5.firebaseio.com",
+    "project_id": "unitygameserver-eb5a5",
+    "storage_bucket": "unitygameserver-eb5a5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:95547175900:android:71555fa5245ea84b",
+        "android_client_info": {
+          "package_name": "com.sharping.educast_unity_part2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "95547175900-6b4f0rhubv74028kim2k7mt6uh5sr4ad.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXmsvXG6NyD3bLbMuTYNjyUmSz1mL5E2Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

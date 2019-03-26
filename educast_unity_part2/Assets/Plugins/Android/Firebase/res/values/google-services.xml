@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources tools:keep="@string/firebase_database_url,@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_web_client_id" xmlns:tools="http://schemas.android.com/tools">
+  <string name="firebase_database_url" translatable="false">https://unitygameserver-eb5a5.firebaseio.com</string>
+  <string name="gcm_defaultSenderId" translatable="false">95547175900</string>
+  <string name="google_storage_bucket" translatable="false">unitygameserver-eb5a5.appspot.com</string>
+  <string name="project_id" translatable="false">unitygameserver-eb5a5</string>
+  <string name="google_api_key" translatable="false">AIzaSyBXmsvXG6NyD3bLbMuTYNjyUmSz1mL5E2Y</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBXmsvXG6NyD3bLbMuTYNjyUmSz1mL5E2Y</string>
+  <string name="google_app_id" translatable="false">1:95547175900:android:71555fa5245ea84b</string>
+  <string name="default_web_client_id" translatable="false">95547175900-6b4f0rhubv74028kim2k7mt6uh5sr4ad.apps.googleusercontent.com</string>
+</resources>

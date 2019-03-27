@@ -4,15 +4,69 @@ using UnityEngine;
 
 public class NoteBebavior : MonoBehaviour
 {
-    public int noteType;
+    private GameManager.Judges judge = GameManager.Judges.MAX;
+
+    public GameManager.NoteType noteType;
+    private KeyCode keyCode;
 
     void Start()
     {
-        
+        switch(noteType)
+        {
+            case GameManager.NoteType.FIRST:
+                keyCode = KeyCode.D;
+                break;
+            case GameManager.NoteType.SECOND:
+                keyCode = KeyCode.F;
+                break;
+            case GameManager.NoteType.THIRD:
+                keyCode = KeyCode.J;
+                break;
+            case GameManager.NoteType.FOURTH:
+                keyCode = KeyCode.K;
+                break;
+        }
     }
 
     void Update()
     {
         transform.Translate(Vector3.down * GameManager.instance.noteSpeed);
+
+        if( Input.GetKey(keyCode))
+        {
+            // 노트가 판정 선에 닿기 시작한 이후로는 해당 노트를 제거
+            if( judge != GameManager.Judges.MAX)
+            {
+                Debug.Log("NodeBebavior::Update::Input.GetKey(keyCode) ->" + judge);
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Debug.Log(GameManager.Judges.BAD.ToString());
+        // 또는 StringArray 하면 코드가 짧아지겠군
+        // 그래서 바꿨습니다.
+        for (GameManager.Judges i = 0; i < GameManager.Judges.MISS; ++i)
+        {
+            if (collision.gameObject.tag == GameManager.judgeLinesStringList[(int)i])
+            {
+                judge = i;
+                break;
+            }
+        }
+
+        switch (collision.gameObject.tag)
+        {
+            case "MissLine":
+                {
+                    judge = GameManager.Judges.MISS;
+                    Destroy(gameObject);
+                }
+                break;
+        }
+
+        //Debug.Log("NodeBebavior::OnTriggerEnter2D::judge ->" + judge);
     }
 }

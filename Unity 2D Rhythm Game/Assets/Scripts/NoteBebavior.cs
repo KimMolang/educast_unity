@@ -56,6 +56,8 @@ public class NoteBebavior : MonoBehaviour
             {
                 Debug.Log("NodeBebavior::Update::Input.GetKey(keyCode) ->" + judge);
                 gameObject.SetActive(false);
+
+                GameManager.instance.ProcessJudge(judge, noteType);
             }
         }
     }
@@ -80,6 +82,8 @@ public class NoteBebavior : MonoBehaviour
                 {
                     judge = GameManager.Judges.MISS;
                     gameObject.SetActive(false);
+
+                    GameManager.instance.ProcessJudge(judge, noteType);
                 }
                 break;
         }

@@ -17,7 +17,6 @@ public class NoteController : MonoBehaviour
     }
 
     private ObjectPooler noteObjectPooler;
-    public GameObject[] Notes; // prefabs
     private List<Note> notes = new List<Note>();
 
     private float x = 0.0f, startY = 8.0f, z = 0.0f;

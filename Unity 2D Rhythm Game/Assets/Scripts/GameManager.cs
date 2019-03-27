@@ -72,8 +72,13 @@ public class GameManager : MonoBehaviour
     private SpriteRenderer[] trailSpriteRenderers;
 
 
+    private AudioSource audioSource;
+    private string musicName = "40.Cyphers_Theme_of_Denise";
+
     void Start()
     {
+        Invoke("PlayMusic", 2.0f);  // 2초 뒤에 함수 호출
+
         scoreText = scoreUI.GetComponent<Text>();
         comboText = comboUI.GetComponent<Text>();
         comboAnimator = comboUI.GetComponent<Animator>();
@@ -188,5 +193,14 @@ public class GameManager : MonoBehaviour
         // 아래처럼 처리 가능쓰
         judgementSpriteRenderer.sprite = judgeSprites[(int)judge];
         ShowJudgement();
+    }
+
+    // 음악을 실행하는 함수
+    void PlayMusic()
+    {
+        AudioClip audioClip = Resources.Load<AudioClip>("Musics/" + musicName);
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = audioClip;
+        audioSource.Play();
     }
 }

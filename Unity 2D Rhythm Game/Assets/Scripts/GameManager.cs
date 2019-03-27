@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
 
 
     private AudioSource audioSource;
-    private string musicName = "40.Cyphers_Theme_of_Denise";
+    public string musicName = "40.Cyphers_Theme_of_Denise";
 
     void Start()
     {

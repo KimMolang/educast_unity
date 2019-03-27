@@ -16,12 +16,17 @@ public class NoteController : MonoBehaviour
         }
     }
 
-    public GameObject[] Notes;
+    private ObjectPooler noteObjectPooler;
+    public GameObject[] Notes; // prefabs
     private List<Note> notes = new List<Note>();
+
+    private float x = 0.0f, startY = 8.0f, z = 0.0f;
     private float beatInterval = 1.0f;
 
     void Start()
     {
+        noteObjectPooler = gameObject.GetComponent<ObjectPooler>();
+
         notes.Add(new Note(GameManager.NoteType.FIRST, 1));
         notes.Add(new Note(GameManager.NoteType.SECOND, 2));
         notes.Add(new Note(GameManager.NoteType.THIRD, 3));
@@ -46,7 +51,19 @@ public class NoteController : MonoBehaviour
 
         yield return new WaitForSeconds(order * beatInterval);
 
-        Instantiate(Notes[(int)noteType]);
+        MakeNote(note);
+    }
+
+    private void MakeNote(Note note)
+    {
+        GameObject obj = noteObjectPooler.GetObject(note.noteType);
+        x = obj.transform.position.x;
+        z = obj.transform.position.z;
+
+        obj.transform.position = new Vector3(x, startY, z);
+        //obj.GetComponent<NoteBebavior>().Initialize();
+        // SetActive를 통해서 OnEnable 가 불린다. 그 함수 안에 이미 초기화 함수 있음.
+        obj.SetActive(true);
     }
 
     void Update()

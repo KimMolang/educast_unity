@@ -28,6 +28,23 @@ public class NoteBebavior : MonoBehaviour
         }
     }
 
+    public void Initialize()
+    {
+        judge = GameManager.Judges.MAX;
+    }
+
+    // 스크립트가 켜질때와 꺼질 때 호출되는 함수
+    // SetActivate()에 따라 객체 상태가 바뀔 때도 스크립트의 상태가 바뀐다.
+    private void OnEnable()
+    {
+        Initialize();
+    }
+
+    private void OnDisable()
+    {
+        
+    }
+
     void Update()
     {
         transform.Translate(Vector3.down * GameManager.instance.noteSpeed);
@@ -38,7 +55,7 @@ public class NoteBebavior : MonoBehaviour
             if( judge != GameManager.Judges.MAX)
             {
                 Debug.Log("NodeBebavior::Update::Input.GetKey(keyCode) ->" + judge);
-                Destroy(gameObject);
+                gameObject.SetActive(false);
             }
         }
     }
@@ -62,7 +79,7 @@ public class NoteBebavior : MonoBehaviour
             case "MissLine":
                 {
                     judge = GameManager.Judges.MISS;
-                    Destroy(gameObject);
+                    gameObject.SetActive(false);
                 }
                 break;
         }

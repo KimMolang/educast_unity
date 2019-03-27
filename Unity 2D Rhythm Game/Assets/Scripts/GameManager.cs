@@ -14,7 +14,8 @@ public class GameManager : MonoBehaviour
         }
         else if(instance != this)
         {
-            Destroy(gameObject); // gameObject 는 자기 자신
+            Destroy(gameObject);
+            // gameObject 는 이 스크립트를 가지고 있는 객체를 뜻함
         }
     }
 
